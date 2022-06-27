@@ -113,9 +113,7 @@ public class SceneGraph {
             bvh.insertFaces(p.getFlatShadedFaces(), p.getMaterial());
 
             Set<Integer> smoothShadedFaceGroups = polyhedronMesh.getPieces()[piece].getGroupIds();
-            Iterator<Integer> faceGroup = smoothShadedFaceGroups.iterator();
-            while (faceGroup.hasNext()) {
-                var groupId = faceGroup.next();
+            for (Integer groupId : smoothShadedFaceGroups) {
                 LogFile.Instance.write("Inserting smooth faces for piece " + piece + ", group id " + groupId);
                 bvh.insertFaces(p.getSmoothShadedFaceGroup(groupId), p.getMaterial());
             }
@@ -147,27 +145,27 @@ public class SceneGraph {
         final double x = ray.getPixelX();
         final double y = ray.getPixelY();
 
-        for (int i = 0; i < _spheres.size(); ++i) {
-            Ray lc = _spheres.get(i).toLocalCoords(ray);
-            IntersectResult r = _spheres.get(i).intersect(lc);
+        for (SphereObject sphere : _spheres) {
+            Ray lc = sphere.toLocalCoords(ray);
+            IntersectResult r = sphere.intersect(lc);
             if (r._intersected && zBuffer.testAndUpdate(x, y, r._distance)) {
-                result = _spheres.get(i).toWorldCoords(r);
+                result = sphere.toWorldCoords(r);
             }
         }
 
-        for (int i = 0; i < _boxes.size(); ++i) {
-            Ray lc = _boxes.get(i).toLocalCoords(ray);
-            IntersectResult r = _boxes.get(i).intersect(lc);
+        for (BoxObject box : _boxes) {
+            Ray lc = box.toLocalCoords(ray);
+            IntersectResult r = box.intersect(lc);
             if (r._intersected && zBuffer.testAndUpdate(x, y, r._distance)) {
-                result = _boxes.get(i).toWorldCoords(r);
+                result = box.toWorldCoords(r);
             }
         }
 
-        for (int i = 0; i < _objects.length; ++i) {
-            Ray lc = _objects[i].toLocalCoords(ray);
-            IntersectResult r = _objects[i].intersect(lc);
+        for (PolyhedronObject object : _objects) {
+            Ray lc = object.toLocalCoords(ray);
+            IntersectResult r = object.intersect(lc);
             if (r._intersected && zBuffer.testAndUpdate(x, y, r._distance)) {
-                result = _objects[i].toWorldCoords(r);
+                result = object.toWorldCoords(r);
             }
         }
 

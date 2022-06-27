@@ -6,7 +6,7 @@ public class BarycentricCoords {
         _u = u; _v = v; _w = w;
     }
 
-    public static BarycentricCoords Calculate(Vector3 p, Vector3 v0, Vector3 v1, Vector3 v2) {
+    public static BarycentricCoords calculate(Vector3 p, Vector3 v0, Vector3 v1, Vector3 v2) {
         Vector3 edge0 = v1.subtract(v0);
         Vector3 edge1 = v2.subtract(v0);
         Vector3 lineSegment = p.subtract(v0);

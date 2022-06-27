@@ -32,9 +32,8 @@ public class PolyhedronObject extends Object {
                 numFaces += _polyhedronMesh.getPieces()[j].getFlatShadedFaces().length;
             }
             Set<Integer> smoothShadedFaceGroups = _polyhedronMesh.getPieces()[j].getGroupIds();
-            Iterator<Integer> faceGroup = smoothShadedFaceGroups.iterator();
-            while (faceGroup.hasNext()) {
-                numFaces += _polyhedronMesh.getPieces()[j].getSmoothShadedFaceGroup(faceGroup.next()).length;
+            for (Integer smoothShadedFaceGroup : smoothShadedFaceGroups) {
+                numFaces += _polyhedronMesh.getPieces()[j].getSmoothShadedFaceGroup(smoothShadedFaceGroup).length;
             }
         }
         _cachedNumFaces = numFaces;
@@ -149,7 +148,7 @@ public class PolyhedronObject extends Object {
         Vector3 v0 = mesh.getVertices()[face._faceVertices[0]._vertexIndex];
         Vector3 v1 = mesh.getVertices()[face._faceVertices[1]._vertexIndex];
         Vector3 v2 = mesh.getVertices()[face._faceVertices[2]._vertexIndex];
-        BarycentricCoords bc = BarycentricCoords.Calculate(r._point, v0, v1, v2);
+        BarycentricCoords bc = BarycentricCoords.calculate(r._point, v0, v1, v2);
         if (bc == null) {
             return new Vector3();
         }

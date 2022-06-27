@@ -13,6 +13,7 @@ public class RenderingOptions {
 
         _cameraPosition = new Vector3(0.0, 7.0, 12.5);
         _cameraEulersDegrees = new Vector3(-5.0, 0.0, 0.0);
+        _cameraEulersDegrees = new Vector3(0.0, 0.0, 0.0);
         _cameraVfovDegrees = 60.0;
 
         _numberRayBounces = 3;

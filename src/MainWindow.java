@@ -1,7 +1,6 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -64,18 +63,15 @@ public class MainWindow extends JFrame {
             // fires in 100ms time we will perform the render. This allows a window paint message to get
             // through and show the user the JLabel text above.
 
-            callOnce(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    IAntiAliasing sampler;
-                    if (_ro._antiAliasing == RenderingOptions.AntiAliasing.SUPER_SAMPLING) {
-                        sampler = new SuperSamplingAA(camera, rayCaster, rayTracer, _ro._numberRayBounces);
-                    }
-                    else {
-                        sampler = new NoAntiAliasing(camera, rayCaster, rayTracer, _ro._numberRayBounces);
-                    }
-                    rayTraceImage(sampler);
+            callOnce(e -> {
+                IAntiAliasing sampler;
+                if (_ro._antiAliasing == RenderingOptions.AntiAliasing.SUPER_SAMPLING) {
+                    sampler = new SuperSamplingAA(camera, rayCaster, rayTracer, _ro._numberRayBounces);
                 }
+                else {
+                    sampler = new NoAntiAliasing(camera, rayCaster, rayTracer, _ro._numberRayBounces);
+                }
+                rayTraceImage(sampler);
             });
         }
         catch (Exception ex) {
@@ -185,10 +181,7 @@ public class MainWindow extends JFrame {
 
         saveToFile(_outputImage);
 
-        callOnce(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { drawImage(); }
-        });
+        callOnce(e -> drawImage());
     }
 
     private void saveToFile(BufferedImage bufferedImage) {

@@ -93,15 +93,13 @@ public class RayTracer {
         double specularPower = 0.0;
         Vector3 diffuseColour = new Vector3(1.0, 1.0, 1.0);
 
-        for (int i = 0; i < _positionalLights.size(); ++i) {
-            PositionalLight light = _positionalLights.get(i);
-            
+        for (PositionalLight light : _positionalLights) {
             final Vector3 lightDirection = light._position.subtract(hit._point);
             final double distanceToLight = Math.abs(lightDirection.magnitude());
             if (distanceToLight > light._radius) {
                 continue;
             }
-            
+
             lightDirection.normalise();
             final double attenuation = light.calculateAttenuation(distanceToLight);
 

@@ -45,12 +45,12 @@ public class BoxObject extends Object {
     public IntersectResult intersect(Ray ray) {
         IntersectResult result = new IntersectResult();
         double closetDistance = Double.MAX_VALUE;
-        for (int i = 0; i < _planes.size(); ++i) {
-            Ray lc = _planes.get(i).toLocalCoords(ray);
-            IntersectResult r = _planes.get(i).intersect(lc);
+        for (PlaneObject plane : _planes) {
+            Ray lc = plane.toLocalCoords(ray);
+            IntersectResult r = plane.intersect(lc);
             if (r._intersected && r._distance < closetDistance) {
                 closetDistance = r._distance;
-                result = _planes.get(i).toWorldCoords(r);
+                result = plane.toWorldCoords(r);
             }
         }
         return result;
